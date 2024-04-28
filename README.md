@@ -1,6 +1,6 @@
 # MQTT v3.1.1 Client Filter Plugin for the CommsChampion Tools
 This project is a member of the [CommsChampion Ecosystem](https://commschamp.github.io/) and implements
-**MQTT v3.1.1 Filter** plugin for the [CommsChampion Tools](https://github.com/commschamp/cc_tools_qt). It
+**MQTT v3.1.1 Client Filter** plugin for the [CommsChampion Tools](https://github.com/commschamp/cc_tools_qt). It
 allows observation and debugging of the custom protocol messages exchanged using
 [MQTT v3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) as the 
 intermediate transport protocol in the common
