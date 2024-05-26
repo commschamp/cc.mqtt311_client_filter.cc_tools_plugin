@@ -23,6 +23,7 @@
 #include <QtCore/QVariant>
 
 #include <cassert>
+#include <chrono>
 #include <cstdint>
 #include <limits>
 #include <iostream>
@@ -869,7 +870,10 @@ unsigned Mqtt311ClientFilter::cancelTickProgramCb(void* data)
 
 void Mqtt311ClientFilter::errorLogCb([[maybe_unused]] void* data, const char* msg)
 {
-    std::cerr << "MQTT311 ERROR: " << msg << std::endl;
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    std::cerr << '[' << milliseconds << "] MQTT ERROR: " << msg << std::endl;
 }
 
 void Mqtt311ClientFilter::connectCompleteCb(void* data, CC_Mqtt311AsyncOpStatus status, const CC_Mqtt311ConnectResponse* response)
