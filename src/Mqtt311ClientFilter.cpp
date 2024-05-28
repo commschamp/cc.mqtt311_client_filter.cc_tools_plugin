@@ -23,6 +23,7 @@
 #include <QtCore/QVariant>
 
 #include <cassert>
+#include <chrono>
 #include <cstdint>
 #include <limits>
 #include <iostream>
@@ -357,6 +358,9 @@ QList<cc_tools_qt::DataInfoPtr> Mqtt311ClientFilter::recvDataImpl(cc_tools_qt::D
     m_recvDataPtr = std::move(dataPtr);
     m_inData.insert(m_inData.end(), m_recvDataPtr->m_data.begin(), m_recvDataPtr->m_data.end());
     auto consumed = ::cc_mqtt311_client_process_data(m_client.get(), m_inData.data(), static_cast<unsigned>(m_inData.size()));
+    if (3 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): consumed bytes: " << consumed << "/" << m_inData.size() << std::endl;
+    }     
     assert(consumed <= m_inData.size());
     m_inData.erase(m_inData.begin(), m_inData.begin() + consumed);
     m_recvDataPtr.reset();
@@ -386,6 +390,10 @@ QList<cc_tools_qt::DataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_qt::D
 
     auto retained = getOutgoingRetained(props);
     props[retainedProp()] = retained;
+
+    if (2 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): publish: " << topic << std::endl;
+    }    
 
     CC_Mqtt311ErrorCode ec = CC_Mqtt311ErrorCode_Success;
     CC_Mqtt311PublishHandle publish = ::cc_mqtt311_client_publish_prepare(m_client.get(), &ec);
@@ -635,6 +643,11 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
     }
 }
 
+const char* Mqtt311ClientFilter::debugNameImpl() const
+{
+    return "mqtt v3.1.1 client filter";
+}
+
 void Mqtt311ClientFilter::doTick()
 {
     assert(m_tickMeasureTs > 0);
@@ -650,6 +663,10 @@ void Mqtt311ClientFilter::doTick()
 
 void Mqtt311ClientFilter::socketConnected()
 {
+    if (2 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): socket connected report" << std::endl;
+    }
+        
     auto config = CC_Mqtt311ConnectConfig();
     ::cc_mqtt311_client_connect_init_config(&config);
 
@@ -689,6 +706,10 @@ void Mqtt311ClientFilter::socketConnected()
 
 void Mqtt311ClientFilter::socketDisconnected()
 {
+    if (2 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): socket disconnected report" << std::endl;
+    }
+
     ::cc_mqtt311_client_notify_network_disconnected(m_client.get());
 }
 
@@ -702,6 +723,10 @@ void Mqtt311ClientFilter::sendPendingData()
 
 void Mqtt311ClientFilter::sendDataInternal(const unsigned char* buf, unsigned bufLen)
 {
+    if (3 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): sending " << bufLen << " bytes" << std::endl;
+    }
+
     auto dataInfo = cc_tools_qt::makeDataInfoTimed();
     dataInfo->m_data.assign(buf, buf + bufLen);
     if (!m_sendDataPtr) {
@@ -723,6 +748,10 @@ void Mqtt311ClientFilter::brokerDisconnectedInternal()
 
 void Mqtt311ClientFilter::messageReceivedInternal(const CC_Mqtt311MessageInfo& info)
 {
+    if (2 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): app message received: " << info.m_topic << std::endl;
+    }
+
     assert(m_recvDataPtr);
     auto dataInfo = cc_tools_qt::makeDataInfoTimed();
     if (info.m_dataLen > 0U) {
@@ -739,6 +768,10 @@ void Mqtt311ClientFilter::messageReceivedInternal(const CC_Mqtt311MessageInfo& i
 
 void Mqtt311ClientFilter::nextTickProgramInternal(unsigned ms)
 {
+    if (3 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): tick request: " << ms << std::endl;
+    }
+
     assert(!m_timer.isActive());
     m_tickMs = ms;
     m_tickMeasureTs = QDateTime::currentMSecsSinceEpoch();
@@ -755,6 +788,11 @@ unsigned Mqtt311ClientFilter::cancelTickProgramInternal()
     auto diff = now - m_tickMeasureTs;
     assert(diff < std::numeric_limits<unsigned>::max());
     m_tickMeasureTs = 0U;
+
+    if (3 <= getDebugOutputLevel()) {
+        std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): cancel tick: " << diff << std::endl;
+    }
+        
     return static_cast<unsigned>(diff);
 }
 
@@ -869,7 +907,10 @@ unsigned Mqtt311ClientFilter::cancelTickProgramCb(void* data)
 
 void Mqtt311ClientFilter::errorLogCb([[maybe_unused]] void* data, const char* msg)
 {
-    std::cerr << "MQTT311 ERROR: " << msg << std::endl;
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    std::cerr << '[' << milliseconds << "] MQTT ERROR: " << msg << std::endl;
 }
 
 void Mqtt311ClientFilter::connectCompleteCb(void* data, CC_Mqtt311AsyncOpStatus status, const CC_Mqtt311ConnectResponse* response)

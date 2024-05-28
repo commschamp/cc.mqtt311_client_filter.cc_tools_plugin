@@ -33,7 +33,7 @@
 #include <string>
 
 static_assert(CC_MQTT311_CLIENT_MAKE_VERSION(0, 1, 0) <= CC_MQTT311_CLIENT_VERSION, "The version of the cc_mqtt311_client library is too old");
-static_assert(CC_TOOLS_QT_MAKE_VERSION(5, 2, 1) <= CC_TOOLS_QT_VERSION, "The version of the cc_tools_qt library is too old");
+static_assert(CC_TOOLS_QT_MAKE_VERSION(5, 3, 0) <= CC_TOOLS_QT_VERSION, "The version of the cc_tools_qt library is too old");
 
 namespace cc_plugin_mqtt311_client_filter
 {
@@ -88,6 +88,7 @@ protected:
     virtual QList<cc_tools_qt::DataInfoPtr> sendDataImpl(cc_tools_qt::DataInfoPtr dataPtr) override;
     virtual void socketConnectionReportImpl(bool connected) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
+    virtual const char* debugNameImpl() const override;
 
 private slots:
     void doTick();
