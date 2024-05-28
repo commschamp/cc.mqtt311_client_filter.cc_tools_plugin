@@ -88,6 +88,7 @@ protected:
     virtual QList<cc_tools_qt::DataInfoPtr> sendDataImpl(cc_tools_qt::DataInfoPtr dataPtr) override;
     virtual void socketConnectionReportImpl(bool connected) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
+    virtual const char* debugNameImpl() const override;
 
 private slots:
     void doTick();
