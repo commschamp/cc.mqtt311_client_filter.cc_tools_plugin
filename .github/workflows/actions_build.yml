@@ -3,10 +3,10 @@ name: Github Actions Build
 on: [push]
 
 env:
-  COMMS_TAG: v5.2.3
-  CC_TOOLS_QT_TAG: v5.3
-  CC_MQTT311_GENERATED_TAG: v2.7
-  CC_MQTT311_LIBS_TAG: v0.1.1
+  COMMS_TAG: develop
+  CC_TOOLS_QT_TAG: develop
+  CC_MQTT311_GENERATED_TAG: develop
+  CC_MQTT311_LIBS_TAG: develop
 
 jobs:
 
