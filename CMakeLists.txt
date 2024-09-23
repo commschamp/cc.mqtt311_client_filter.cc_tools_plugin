@@ -3,7 +3,8 @@ project ("cc_tools_plugin_mqtt311_client_filter")
 
 # Available options
 option (OPT_WARN_AS_ERR "Treat warning as error" ON)
-option (OPT_USE_CCACHE "Use ccache on UNIX systems if it's available" OFF)
+option (OPT_USE_CCACHE "Use ccache if it's available" OFF)
+option (OPT_WITH_DEFAULT_SANITIZERS "Build with sanitizers" OFF)
 
 # Extra configuration variables
 # OPT_QT_MAJOR_VERSION - Major Qt version. Defaults to 5
@@ -45,6 +46,10 @@ if (OPT_USE_CCACHE)
         list(APPEND extra_opts CCACHE_EXECUTABLE "${OPT_CCACHE_EXECUTABLE}")
     endif()    
 endif ()
+
+if (OPT_WITH_DEFAULT_SANITIZERS)
+    list(APPEND extra_opts DEFAULT_SANITIZERS)
+endif()
 
 include (${LibComms_DIR}/CC_Compile.cmake)
 cc_compile(${compile_opts})
