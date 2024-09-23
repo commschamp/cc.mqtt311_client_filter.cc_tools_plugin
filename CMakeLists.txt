@@ -7,6 +7,7 @@ option (OPT_USE_CCACHE "Use ccache on UNIX systems if it's available" OFF)
 
 # Extra configuration variables
 # OPT_QT_MAJOR_VERSION - Major Qt version. Defaults to 5
+# OPT_CCACHE_EXECUTABLE - Custom ccache executable
 
 # Extra standard CMake configuration
 # CMAKE_CXX_STANDARD - C++ standard to use, defaults (and min required) to 17
@@ -33,14 +34,16 @@ endif()
 #######################################################################
 
 # Compiler options
-set (compile_opts)
+set (extra_opts)
 if (OPT_WARN_AS_ERR)
-    list (APPEND compile_opts WARN_AS_ERR)
+    list (APPEND extra_opts WARN_AS_ERR)
 endif ()
 
-set (ccache_opt)
-if ((UNIX) AND (OPT_USE_CCACHE))
-    list (APPEND compile_opts USE_CCACHE)
+if (OPT_USE_CCACHE)
+    list (APPEND extra_opts USE_CCACHE)
+    if (NOT "${OPT_CCACHE_EXECUTABLE}" STREQUAL "")
+        list(APPEND extra_opts CCACHE_EXECUTABLE "${OPT_CCACHE_EXECUTABLE}")
+    endif()    
 endif ()
 
 include (${LibComms_DIR}/CC_Compile.cmake)
