@@ -52,7 +52,7 @@ if (OPT_WITH_DEFAULT_SANITIZERS)
 endif()
 
 include (${LibComms_DIR}/CC_Compile.cmake)
-cc_compile(${compile_opts})
+cc_compile(${extra_opts})
 cc_msvc_force_warn_opt("/W4")
 
 #######################################################################
