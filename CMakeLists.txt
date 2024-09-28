@@ -3,10 +3,12 @@ project ("cc_tools_plugin_mqtt311_client_filter")
 
 # Available options
 option (OPT_WARN_AS_ERR "Treat warning as error" ON)
-option (OPT_USE_CCACHE "Use ccache on UNIX systems if it's available" OFF)
+option (OPT_USE_CCACHE "Use ccache if it's available" OFF)
+option (OPT_WITH_DEFAULT_SANITIZERS "Build with sanitizers" OFF)
 
 # Extra configuration variables
 # OPT_QT_MAJOR_VERSION - Major Qt version. Defaults to 5
+# OPT_CCACHE_EXECUTABLE - Custom ccache executable
 
 # Extra standard CMake configuration
 # CMAKE_CXX_STANDARD - C++ standard to use, defaults (and min required) to 17
@@ -33,18 +35,24 @@ endif()
 #######################################################################
 
 # Compiler options
-set (compile_opts)
+set (extra_opts)
 if (OPT_WARN_AS_ERR)
-    list (APPEND compile_opts WARN_AS_ERR)
+    list (APPEND extra_opts WARN_AS_ERR)
 endif ()
 
-set (ccache_opt)
-if ((UNIX) AND (OPT_USE_CCACHE))
-    list (APPEND compile_opts USE_CCACHE)
+if (OPT_USE_CCACHE)
+    list (APPEND extra_opts USE_CCACHE)
+    if (NOT "${OPT_CCACHE_EXECUTABLE}" STREQUAL "")
+        list(APPEND extra_opts CCACHE_EXECUTABLE "${OPT_CCACHE_EXECUTABLE}")
+    endif()    
 endif ()
+
+if (OPT_WITH_DEFAULT_SANITIZERS)
+    list(APPEND extra_opts DEFAULT_SANITIZERS)
+endif()
 
 include (${LibComms_DIR}/CC_Compile.cmake)
-cc_compile(${compile_opts})
+cc_compile(${extra_opts})
 cc_msvc_force_warn_opt("/W4")
 
 #######################################################################

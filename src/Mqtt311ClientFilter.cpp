@@ -697,7 +697,7 @@ void Mqtt311ClientFilter::socketConnected()
             this);
 
     if (ec != CC_Mqtt311ErrorCode_Success) {
-        reportError(tr("Failed to initiate MQTT v5 connection"));
+        reportError(tr("Failed to initiate MQTT v3.1.1 connection"));
         return;
     }    
 
