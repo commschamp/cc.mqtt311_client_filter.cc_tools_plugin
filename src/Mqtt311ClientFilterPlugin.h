@@ -20,16 +20,18 @@
 
 #include "Mqtt311ClientFilter.h"
 
-#include <cc_tools_qt/Plugin.h>
+#include <cc_tools_qt/ToolsPlugin.h>
 
 namespace cc_plugin_mqtt311_client_filter
 {
 
-class Mqtt311ClientFilterPlugin : public cc_tools_qt::Plugin
+class Mqtt311ClientFilterPlugin : public cc_tools_qt::ToolsPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.Mqtt311ClientFilter" FILE "cc_plugin_mqtt311_client_filter.json")
-    Q_INTERFACES(cc_tools_qt::Plugin)
+    Q_INTERFACES(cc_tools_qt::ToolsPlugin)
+
+    using Base = cc_tools_qt::ToolsPlugin;
 
 public:
     Mqtt311ClientFilterPlugin();
@@ -39,6 +41,8 @@ protected:
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
+    virtual cc_tools_qt::ToolsFilterPtr createFilterImpl() override;
+    virtual QWidget* createConfigurationWidgetImpl() override;
 
 private:
     void createFilterIfNeeded();

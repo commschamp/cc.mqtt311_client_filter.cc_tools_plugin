@@ -352,7 +352,7 @@ void Mqtt311ClientFilter::stopImpl()
     }    
 }
 
-QList<cc_tools_qt::DataInfoPtr> Mqtt311ClientFilter::recvDataImpl(cc_tools_qt::DataInfoPtr dataPtr)
+QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::recvDataImpl(cc_tools_qt::ToolsDataInfoPtr dataPtr)
 {
     m_recvData.clear();
     m_recvDataPtr = std::move(dataPtr);
@@ -367,7 +367,7 @@ QList<cc_tools_qt::DataInfoPtr> Mqtt311ClientFilter::recvDataImpl(cc_tools_qt::D
     return std::move(m_recvData);
 }
 
-QList<cc_tools_qt::DataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_qt::DataInfoPtr dataPtr)
+QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_qt::ToolsDataInfoPtr dataPtr)
 {
     m_sendData.clear();
 

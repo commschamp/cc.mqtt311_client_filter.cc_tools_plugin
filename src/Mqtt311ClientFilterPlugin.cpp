@@ -105,24 +105,9 @@ void getListFromConfigMap(const QVariantMap& subConfig, const QString& key, T& l
 } // namespace 
     
 
-Mqtt311ClientFilterPlugin::Mqtt311ClientFilterPlugin()
+Mqtt311ClientFilterPlugin::Mqtt311ClientFilterPlugin() :
+    Base(Type_Filter)
 {
-    pluginProperties()
-        .setFiltersCreateFunc(
-            [this]()
-            {
-                createFilterIfNeeded();
-                cc_tools_qt::PluginProperties::ListOfFilters result;
-                result.append(m_filter);
-                return result;
-            })
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createFilterIfNeeded();
-                return new Mqtt311ClientFilterConfigWidget(*m_filter);
-            })            
-        ;
 }
 
 Mqtt311ClientFilterPlugin::~Mqtt311ClientFilterPlugin() noexcept = default;
@@ -181,6 +166,18 @@ void Mqtt311ClientFilterPlugin::createFilterIfNeeded()
     }
 
     m_filter = makeMqtt311ClientFilter();
+}
+
+cc_tools_qt::ToolsFilterPtr Mqtt311ClientFilterPlugin::createFilterImpl()
+{
+    createFilterIfNeeded();
+    return m_filter;
+}
+
+QWidget* Mqtt311ClientFilterPlugin::createConfigurationWidgetImpl()
+{
+    createFilterIfNeeded();
+    return new Mqtt311ClientFilterConfigWidget(*m_filter);
 }
 
 }  // namespace cc_plugin_mqtt311_client_filter
