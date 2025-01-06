@@ -264,7 +264,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        type: [Debug, Release, MinSizeRel]
+        type: [Debug, Release]
         arch: [x64]
         cpp: [17]
         qt_ver: [5]
