@@ -8,10 +8,10 @@ on:
       - '**'
 
 env:
-  COMMS_TAG: develop
-  CC_TOOLS_QT_TAG: develop
-  CC_MQTT311_GENERATED_TAG: develop
-  CC_MQTT311_LIBS_TAG: develop
+  COMMS_TAG: v5.3
+  CC_TOOLS_QT_TAG: v6.0
+  CC_MQTT311_GENERATED_TAG: v3.0
+  CC_MQTT311_LIBS_TAG: v1.0.3
 
 jobs:
   build_gcc_ubuntu_22_04:
