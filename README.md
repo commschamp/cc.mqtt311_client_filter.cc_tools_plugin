@@ -9,6 +9,11 @@ Please read the [wiki page](https://github.com/commschamp/cc.mqtt311_client_filt
 how to configure and use the plugin.
 
 # How to Build
+This project has several external dependencies. It is highly recommended to use the
+[cc.cmake](https://github.com/commschamp/cc.cmake) project to bring in all the
+necessary components of the [CommsChampion Ecosystem](https://commschamp.github.io)
+together. Below are detailed instructions on how to build sources of **this** particular repository.
+
 This project uses [CMake](https://cmake.org/) as its build system. Please open the primary
 [CMakeLists.txt](CMakeLists.txt) and review the available configuration options.
 
