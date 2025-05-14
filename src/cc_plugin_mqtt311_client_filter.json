@@ -37,5 +37,6 @@
         "    { \"mqtt.qos\": 1 } - Alias to \"mqtt311.qos\".\n",
         "    { \"mqtt.retained\": true } - Alias to \"mqtt311.retained\".\n"
     ],
-    "type" : "filter"
+    "type" : "filter",
+    "version" : "v1.0.3" 
 }

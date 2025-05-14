@@ -397,7 +397,7 @@ QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_
 
     CC_Mqtt311ErrorCode ec = CC_Mqtt311ErrorCode_Success;
     CC_Mqtt311PublishHandle publish = ::cc_mqtt311_client_publish_prepare(m_client.get(), &ec);
-    if (publish == NULL) {
+    if (publish == nullptr) {
         reportError(tr("Publish allocation failed with error: ") + errorCodeStr(ec));
         return m_sendData;
     }
@@ -413,6 +413,7 @@ QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_
     ec = ::cc_mqtt311_client_publish_config(publish, &config);
     if (ec != CC_Mqtt311ErrorCode_Success) {
         reportError(tr("Failed to configure MQTT311 publish with error: ") + errorCodeStr(ec));
+        ::cc_mqtt311_client_publish_cancel(publish);
         return m_sendData;
     }    
 
