@@ -38,5 +38,5 @@
         "    { \"mqtt.retained\": true } - Alias to \"mqtt311.retained\".\n"
     ],
     "type" : "filter",
-    "version" : "v1.0.3" 
+    "version" : "v1.0.4" 
 }
