@@ -27,7 +27,7 @@
 namespace cc_plugin_mqtt311_client_filter
 {
 
-namespace 
+namespace
 {
 
 const QString MainConfigKey("cc_plugin_mqtt311_client_filter");
@@ -44,7 +44,6 @@ const QString SubTopicSubKey("sub_topic");
 const QString SubQosSubKey("sub_qos");
 const QString SubscribesSubKey("subscribes");
 
-
 template <typename T>
 void getFromConfigMap(const QVariantMap& subConfig, const QString& key, T& val)
 {
@@ -52,7 +51,7 @@ void getFromConfigMap(const QVariantMap& subConfig, const QString& key, T& val)
     auto var = subConfig.value(key);
     if (var.isValid() && var.canConvert<Type>()) {
         val = var.value<Type>();
-    }    
+    }
 }
 
 QVariantMap toVariantMap(const Mqtt311ClientFilter::SubConfig& config)
@@ -86,14 +85,14 @@ void getListFromConfigMap(const QVariantMap& subConfig, const QString& key, T& l
     auto var = subConfig.value(key);
     if ((!var.isValid()) || (!var.canConvert<QVariantList>())) {
         return;
-    }    
+    }
 
     auto varList = var.value<QVariantList>();
     for (auto& elemVar : varList) {
 
         if ((!elemVar.isValid()) || (!elemVar.canConvert<QVariantMap>())) {
             return;
-        }            
+        }
 
         auto varMap = elemVar.value<QVariantMap>();
 
@@ -102,8 +101,7 @@ void getListFromConfigMap(const QVariantMap& subConfig, const QString& key, T& l
     }
 }
 
-} // namespace 
-    
+} // namespace
 
 Mqtt311ClientFilterPlugin::Mqtt311ClientFilterPlugin() :
     Base(Type_Filter)
@@ -181,5 +179,4 @@ QWidget* Mqtt311ClientFilterPlugin::createConfigurationWidgetImpl()
 }
 
 }  // namespace cc_plugin_mqtt311_client_filter
-
 

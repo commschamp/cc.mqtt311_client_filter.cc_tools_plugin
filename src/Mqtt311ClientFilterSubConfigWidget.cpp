@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "Mqtt311ClientFilterSubConfigWidget.h"
 
 #include <algorithm>
@@ -23,7 +22,7 @@
 namespace cc_plugin_mqtt311_client_filter
 {
 
-Mqtt311ClientFilterSubConfigWidget::Mqtt311ClientFilterSubConfigWidget(Mqtt311ClientFilter& filter, SubConfig& config, QWidget* parentObj) : 
+Mqtt311ClientFilterSubConfigWidget::Mqtt311ClientFilterSubConfigWidget(Mqtt311ClientFilter& filter, SubConfig& config, QWidget* parentObj) :
     Base(parentObj),
     m_filter(filter),
     m_config(config)
@@ -35,15 +34,15 @@ Mqtt311ClientFilterSubConfigWidget::Mqtt311ClientFilterSubConfigWidget(Mqtt311Cl
 
     connect(
         m_ui.m_topicLineEdit, &QLineEdit::textChanged,
-        this, &Mqtt311ClientFilterSubConfigWidget::topicUpdated);   
+        this, &Mqtt311ClientFilterSubConfigWidget::topicUpdated);
 
     connect(
         m_ui.m_maxQosSpinBox, qOverload<int>(&QSpinBox::valueChanged),
-        this, &Mqtt311ClientFilterSubConfigWidget::maxQosUpdated);  
+        this, &Mqtt311ClientFilterSubConfigWidget::maxQosUpdated);
 
     connect(
         m_ui.m_delToolButton, &QToolButton::clicked,
-        this, &Mqtt311ClientFilterSubConfigWidget::delClicked);           
+        this, &Mqtt311ClientFilterSubConfigWidget::delClicked);
 }
 
 void Mqtt311ClientFilterSubConfigWidget::topicUpdated(const QString& val)
@@ -61,9 +60,9 @@ void Mqtt311ClientFilterSubConfigWidget::maxQosUpdated(int val)
 void Mqtt311ClientFilterSubConfigWidget::delClicked([[maybe_unused]] bool checked)
 {
     auto& subs = m_filter.config().m_subscribes;
-    auto iter = 
+    auto iter =
         std::find_if(
-            subs.begin(), subs.end(), 
+            subs.begin(), subs.end(),
             [this](auto& info)
             {
                 return &m_config == &info;
@@ -80,7 +79,5 @@ void Mqtt311ClientFilterSubConfigWidget::delClicked([[maybe_unused]] bool checke
     deleteLater();
 }
 
-
 }  // namespace cc_plugin_mqtt311_client_filter
-
 

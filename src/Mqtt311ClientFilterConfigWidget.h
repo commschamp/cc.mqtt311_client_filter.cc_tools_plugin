@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "ui_Mqtt311ClientFilterConfigWidget.h"
@@ -23,7 +22,6 @@
 #include "Mqtt311ClientFilter.h"
 
 #include <QtWidgets/QWidget>
-
 
 namespace cc_plugin_mqtt311_client_filter
 {
@@ -54,12 +52,11 @@ private:
     using SubConfig = Mqtt311ClientFilter::SubConfig;
 
     void refreshSubscribes();
-    void addSubscribeWidget(SubConfig& config);    
+    void addSubscribeWidget(SubConfig& config);
 
     Mqtt311ClientFilter& m_filter;
     Ui::Mqtt311ClientFilterConfigWidget m_ui;
 };
 
 }  // namespace cc_plugin_mqtt311_client_filter
-
 

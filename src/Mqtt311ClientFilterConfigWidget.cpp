@@ -26,7 +26,7 @@
 namespace cc_plugin_mqtt311_client_filter
 {
 
-namespace 
+namespace
 {
 
 void deleteAllWidgetsFrom(QLayout& layout)
@@ -42,8 +42,7 @@ void deleteAllWidgetsFrom(QLayout& layout)
     }
 }
 
-} // namespace 
-    
+} // namespace
 
 Mqtt311ClientFilterConfigWidget::Mqtt311ClientFilterConfigWidget(Mqtt311ClientFilter& filter, QWidget* parentObj) :
     Base(parentObj),
@@ -58,11 +57,11 @@ Mqtt311ClientFilterConfigWidget::Mqtt311ClientFilterConfigWidget(Mqtt311ClientFi
 
     connect(
         &m_filter, &Mqtt311ClientFilter::sigConfigChanged,
-        this, &Mqtt311ClientFilterConfigWidget::refresh);     
+        this, &Mqtt311ClientFilterConfigWidget::refresh);
 
     connect(
         m_ui.m_respTimeoutSpinBox, qOverload<int>(&QSpinBox::valueChanged),
-        this, &Mqtt311ClientFilterConfigWidget::respTimeoutUpdated);    
+        this, &Mqtt311ClientFilterConfigWidget::respTimeoutUpdated);
 
     connect(
         m_ui.m_clientIdLineEdit, &QLineEdit::textChanged,
@@ -70,35 +69,35 @@ Mqtt311ClientFilterConfigWidget::Mqtt311ClientFilterConfigWidget(Mqtt311ClientFi
 
     connect(
         m_ui.m_usernameLineEdit, &QLineEdit::textChanged,
-        this, &Mqtt311ClientFilterConfigWidget::usernameUpdated);        
+        this, &Mqtt311ClientFilterConfigWidget::usernameUpdated);
 
     connect(
         m_ui.m_passwordLineEdit, &QLineEdit::textChanged,
-        this, &Mqtt311ClientFilterConfigWidget::passwordUpdated); 
+        this, &Mqtt311ClientFilterConfigWidget::passwordUpdated);
 
     connect(
         m_ui.m_passwordShowHidePushButton,  &QPushButton::clicked,
-        this, &Mqtt311ClientFilterConfigWidget::passwordShowHideClicked);               
+        this, &Mqtt311ClientFilterConfigWidget::passwordShowHideClicked);
 
     connect(
         m_ui.m_keepAliveSpinBox, qOverload<int>(&QSpinBox::valueChanged),
-        this, &Mqtt311ClientFilterConfigWidget::keepAliveUpdated);    
+        this, &Mqtt311ClientFilterConfigWidget::keepAliveUpdated);
 
     connect(
         m_ui.m_cleanSessionComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-        this, &Mqtt311ClientFilterConfigWidget::forcedCleanSessionUpdated);           
+        this, &Mqtt311ClientFilterConfigWidget::forcedCleanSessionUpdated);
 
     connect(
         m_ui.m_pubTopicLineEdit, &QLineEdit::textChanged,
-        this, &Mqtt311ClientFilterConfigWidget::pubTopicUpdated);        
+        this, &Mqtt311ClientFilterConfigWidget::pubTopicUpdated);
 
     connect(
         m_ui.m_pubQosSpinBox, qOverload<int>(&QSpinBox::valueChanged),
-        this, &Mqtt311ClientFilterConfigWidget::pubQosUpdated);   
+        this, &Mqtt311ClientFilterConfigWidget::pubQosUpdated);
 
     connect(
         m_ui.m_addSubPushButton, &QPushButton::clicked,
-        this, &Mqtt311ClientFilterConfigWidget::addSubscribe);           
+        this, &Mqtt311ClientFilterConfigWidget::addSubscribe);
 }
 
 Mqtt311ClientFilterConfigWidget::~Mqtt311ClientFilterConfigWidget() noexcept = default;
@@ -109,7 +108,7 @@ void Mqtt311ClientFilterConfigWidget::refresh()
 
     for (auto& subConfig : m_filter.config().m_subscribes) {
         addSubscribeWidget(subConfig);
-    }    
+    }
 
     m_ui.m_respTimeoutSpinBox->setValue(m_filter.config().m_respTimeout);
     m_ui.m_clientIdLineEdit->setText(m_filter.config().m_clientId);
@@ -156,9 +155,9 @@ void Mqtt311ClientFilterConfigWidget::passwordShowHideClicked(bool checked)
         mode = QLineEdit::Normal;
         buttonText = tr("Hide");
     }
-    
+
     m_ui.m_passwordLineEdit->setEchoMode(mode);
-    m_ui.m_passwordShowHidePushButton->setText(buttonText);    
+    m_ui.m_passwordShowHidePushButton->setText(buttonText);
 }
 
 void Mqtt311ClientFilterConfigWidget::keepAliveUpdated(int val)
@@ -209,9 +208,8 @@ void Mqtt311ClientFilterConfigWidget::addSubscribeWidget(SubConfig& config)
 
     auto* subsLayout = qobject_cast<QVBoxLayout*>(m_ui.m_subsWidget->layout());
     assert(subsLayout != nullptr);
-    subsLayout->addWidget(widget); 
+    subsLayout->addWidget(widget);
 }
 
 }  // namespace cc_plugin_mqtt311_client_filter
-
 

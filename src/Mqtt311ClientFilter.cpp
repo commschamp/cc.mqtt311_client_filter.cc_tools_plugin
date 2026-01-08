@@ -32,7 +32,7 @@
 namespace cc_plugin_mqtt311_client_filter
 {
 
-namespace 
+namespace
 {
 
 inline Mqtt311ClientFilter* asThis(void* data)
@@ -67,109 +67,109 @@ const QString& aliasQosProp()
 const QString& retainedProp()
 {
     static const QString Str("mqtt311.retained");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasRetainedProp()
 {
     static const QString Str("mqtt.retained");
-    return Str;    
+    return Str;
 }
 
 const QString& clientProp()
 {
     static const QString Str("mqtt311.client");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasClientProp()
 {
     static const QString Str("mqtt.client");
-    return Str;    
+    return Str;
 }
 
 const QString& usernameProp()
 {
     static const QString Str("mqtt311.username");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasUsernameProp()
 {
     static const QString Str("mqtt.username");
-    return Str;    
+    return Str;
 }
 
 const QString& passwordProp()
 {
     static const QString Str("mqtt311.password");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasPasswordProp()
 {
     static const QString Str("mqtt.password");
-    return Str;    
+    return Str;
 }
 
 const QString& pubTopicProp()
 {
     static const QString Str("mqtt311.pub_topic");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasPubTopicProp()
 {
     static const QString Str("mqtt.pub_topic");
-    return Str;    
+    return Str;
 }
 
 const QString& pubQosProp()
 {
     static const QString Str("mqtt311.pub_qos");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasPubQosProp()
 {
     static const QString Str("mqtt.pub_qos");
-    return Str;    
+    return Str;
 }
 
 const QString& subscribesProp()
 {
     static const QString Str("mqtt311.subscribes");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasSubscribesProp()
 {
     static const QString Str("mqtt.subscribes");
-    return Str;    
+    return Str;
 }
 
 const QString& subscribesRemoveProp()
 {
     static const QString Str("mqtt311.subscribes_remove");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasSubscribesRemoveProp()
 {
     static const QString Str("mqtt.subscribes_remove");
-    return Str;    
+    return Str;
 }
 
 const QString& subscribesClearProp()
 {
     static const QString Str("mqtt311.subscribes_clear");
-    return Str;    
+    return Str;
 }
 
 const QString& aliasSubscribesClearProp()
 {
     static const QString Str("mqtt.subscribes_clear");
-    return Str;    
+    return Str;
 }
 
 const QString& topicSubProp()
@@ -218,7 +218,7 @@ bool getOutgoingRetained(const QVariantMap& props)
 
     if (props.contains(aliasRetainedProp())) {
         return props[aliasRetainedProp()].value<bool>();
-    }    
+    }
 
     return false;
 }
@@ -290,8 +290,8 @@ std::vector<std::uint8_t> parsePassword(const QString& password)
             continue;
         }
 
-        if ((password.size() <= (idx + 4)) || 
-            (password[idx] != '\\') || 
+        if ((password.size() <= (idx + 4)) ||
+            (password[idx] != '\\') ||
             (password[idx + 1] != 'x')) {
             result.push_back(static_cast<std::uint8_t>(password[idx].cell()));
             idx += 1;
@@ -305,8 +305,7 @@ std::vector<std::uint8_t> parsePassword(const QString& password)
     return result;
 }
 
-} // namespace 
-    
+} // namespace
 
 Mqtt311ClientFilter::Mqtt311ClientFilter() :
     m_client(::cc_mqtt311_client_alloc())
@@ -334,9 +333,9 @@ bool Mqtt311ClientFilter::startImpl()
     if (ec != CC_Mqtt311ErrorCode_Success) {
         reportError(tr("Failed to update MQTT311 default response timeout"));
         return false;
-    }    
+    }
 
-    return true; 
+    return true;
 }
 
 void Mqtt311ClientFilter::stopImpl()
@@ -349,7 +348,7 @@ void Mqtt311ClientFilter::stopImpl()
     if (ec != CC_Mqtt311ErrorCode_Success) {
         reportError(tr("Failed to send disconnect with error: ") + errorCodeStr(ec));
         return;
-    }    
+    }
 }
 
 QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::recvDataImpl(cc_tools_qt::ToolsDataInfoPtr dataPtr)
@@ -360,7 +359,7 @@ QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::recvDataImpl(cc_tools_
     auto consumed = ::cc_mqtt311_client_process_data(m_client.get(), m_inData.data(), static_cast<unsigned>(m_inData.size()));
     if (3 <= getDebugOutputLevel()) {
         std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): consumed bytes: " << consumed << "/" << m_inData.size() << std::endl;
-    }     
+    }
     assert(consumed <= m_inData.size());
     m_inData.erase(m_inData.begin(), m_inData.begin() + consumed);
     m_recvDataPtr.reset();
@@ -384,7 +383,7 @@ QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_
     auto& props = dataPtr->m_extraProperties;
     std::string topic = getOutgoingTopic(props, m_config.m_pubTopic);
     props[topicProp()] = QString::fromStdString(topic);
-    
+
     auto qos = getOutgoingQos(props, m_config.m_pubQos);
     props[qosProp()] = qos;
 
@@ -393,7 +392,7 @@ QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_
 
     if (2 <= getDebugOutputLevel()) {
         std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): publish: " << topic << std::endl;
-    }    
+    }
 
     CC_Mqtt311ErrorCode ec = CC_Mqtt311ErrorCode_Success;
     CC_Mqtt311PublishHandle publish = ::cc_mqtt311_client_publish_prepare(m_client.get(), &ec);
@@ -408,14 +407,14 @@ QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_
     config.m_topic = topic.c_str();
     config.m_data = dataPtr->m_data.data();
     config.m_dataLen = static_cast<decltype(config.m_dataLen)>(dataPtr->m_data.size());
-    config.m_qos = static_cast<decltype(config.m_qos)>(qos);    
+    config.m_qos = static_cast<decltype(config.m_qos)>(qos);
     config.m_retain = retained;
     ec = ::cc_mqtt311_client_publish_config(publish, &config);
     if (ec != CC_Mqtt311ErrorCode_Success) {
         reportError(tr("Failed to configure MQTT311 publish with error: ") + errorCodeStr(ec));
         ::cc_mqtt311_client_publish_cancel(publish);
         return m_sendData;
-    }    
+    }
 
     m_sendDataPtr = std::move(dataPtr);
 
@@ -423,7 +422,7 @@ QList<cc_tools_qt::ToolsDataInfoPtr> Mqtt311ClientFilter::sendDataImpl(cc_tools_
     if (ec != CC_Mqtt311ErrorCode_Success) {
         reportError(tr("Failed to send MQTT311 publish with error: ") + errorCodeStr(ec));
         m_sendDataPtr.reset();
-        return m_sendData;        
+        return m_sendData;
     }
 
     m_sendDataPtr.reset();
@@ -474,7 +473,7 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
             }
         }
     }
-    
+
     {
         static const QString* PasswordProps[] = {
             &aliasPasswordProp(),
@@ -487,7 +486,7 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
                 m_config.m_password = var.value<QString>();
                 updated = true;
             }
-        }  
+        }
     }
 
     {
@@ -502,8 +501,8 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
                 m_config.m_pubTopic = var.value<QString>();
                 updated = true;
             }
-        }  
-    }  
+        }
+    }
 
     {
         static const QString* PubQosProps[] = {
@@ -517,8 +516,8 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
                 m_config.m_pubQos = var.value<int>();
                 updated = true;
             }
-        }  
-    }  
+        }
+    }
 
     {
         static const QString* SubscribesRemoveProps[] = {
@@ -548,22 +547,22 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
 
                 auto topic = topicVar.value<QString>();
 
-                auto iter = 
+                auto iter =
                     std::find_if(
                         m_config.m_subscribes.begin(), m_config.m_subscribes.end(),
                         [&topic](const auto& info)
                         {
                             return topic == info.m_topic;
                         });
-                
+
                 if (iter != m_config.m_subscribes.end()) {
                     m_config.m_subscribes.erase(iter);
                     updated = true;
-                    forceCleanSession();                    
+                    forceCleanSession();
                 }
             }
-        }  
-    }  
+        }
+    }
 
     {
         static const QString* SubscribesClearProps[] = {
@@ -583,8 +582,8 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
 
             m_config.m_subscribes.clear();
             updated = true;
-        }  
-    }           
+        }
+    }
 
     {
         static const QString* SubscribesProps[] = {
@@ -614,14 +613,14 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
 
                 auto topic = topicVar.value<QString>();
 
-                auto iter = 
+                auto iter =
                     std::find_if(
                         m_config.m_subscribes.begin(), m_config.m_subscribes.end(),
                         [&topic](const auto& info)
                         {
                             return topic == info.m_topic;
                         });
-                
+
                 if (iter == m_config.m_subscribes.end()) {
                     iter = m_config.m_subscribes.insert(m_config.m_subscribes.end(), SubConfig());
                     iter->m_topic = topic;
@@ -633,11 +632,11 @@ void Mqtt311ClientFilter::applyInterPluginConfigImpl(const QVariantMap& props)
                     subConfig.m_maxQos = qosVar.value<int>();
                 }
             }
-            
+
             updated = true;
             forceCleanSession();
-        }  
-    }              
+        }
+    }
 
     if (updated) {
         emit sigConfigChanged();
@@ -667,14 +666,14 @@ void Mqtt311ClientFilter::socketConnected()
     if (2 <= getDebugOutputLevel()) {
         std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): socket connected report" << std::endl;
     }
-        
+
     auto config = CC_Mqtt311ConnectConfig();
     ::cc_mqtt311_client_connect_init_config(&config);
 
     auto clientId = m_config.m_clientId.toStdString();
     auto username = m_config.m_username.toStdString();
     auto password = parsePassword(m_config.m_password);
-    
+
     if (!clientId.empty()) {
         config.m_clientId = clientId.c_str();
     }
@@ -683,24 +682,24 @@ void Mqtt311ClientFilter::socketConnected()
     config.m_password = password.data();
     config.m_passwordLen = static_cast<decltype(config.m_passwordLen)>(password.size());
     config.m_keepAlive = m_config.m_keepAlive;
-    config.m_cleanSession = 
+    config.m_cleanSession =
         (m_config.m_forcedCleanSession) ||
-        (clientId.empty()) || 
+        (clientId.empty()) ||
         (clientId != m_prevClientId) ||
         (m_firstConnect);
 
-    auto ec = 
+    auto ec =
         cc_mqtt311_client_connect(
-            m_client.get(), 
-            &config, 
-            nullptr, 
-            &Mqtt311ClientFilter::connectCompleteCb, 
+            m_client.get(),
+            &config,
+            nullptr,
+            &Mqtt311ClientFilter::connectCompleteCb,
             this);
 
     if (ec != CC_Mqtt311ErrorCode_Success) {
         reportError(tr("Failed to initiate MQTT v3.1.1 connection"));
         return;
-    }    
+    }
 
     m_prevClientId = clientId;
 }
@@ -741,7 +740,7 @@ void Mqtt311ClientFilter::sendDataInternal(const unsigned char* buf, unsigned bu
 
 void Mqtt311ClientFilter::brokerDisconnectedInternal()
 {
-    static const QString BrokerDisconnecteError = 
+    static const QString BrokerDisconnecteError =
         tr("MQTT311 Broker is disconnected");
 
     reportError(BrokerDisconnecteError);
@@ -793,7 +792,7 @@ unsigned Mqtt311ClientFilter::cancelTickProgramInternal()
     if (3 <= getDebugOutputLevel()) {
         std::cout << '[' << currTimestamp() << "] (" << debugNameImpl() << "): cancel tick: " << diff << std::endl;
     }
-        
+
     return static_cast<unsigned>(diff);
 }
 
@@ -807,7 +806,7 @@ void Mqtt311ClientFilter::connectCompleteInternal(CC_Mqtt311AsyncOpStatus status
     assert(response != nullptr);
     if (response->m_returnCode != CC_Mqtt311ConnectReturnCode_Accepted) {
         reportError(tr("MQTT broker rejected connection with returnCode=") + QString::number(response->m_returnCode));
-        return;        
+        return;
     }
 
     m_firstConnect = false;
@@ -826,7 +825,7 @@ void Mqtt311ClientFilter::connectCompleteInternal(CC_Mqtt311AsyncOpStatus status
     if (subscribe == nullptr) {
         reportError(tr("Failed to allocate SUBSCRIBE message in MQTT311 client"));
         return;
-    }    
+    }
 
     for (auto& sub : m_config.m_subscribes) {
         auto topicStr = sub.m_topic.trimmed().toStdString();
@@ -841,14 +840,14 @@ void Mqtt311ClientFilter::connectCompleteInternal(CC_Mqtt311AsyncOpStatus status
             reportError(
                 QString("%1 \"%2\", ec=%3").arg(tr("Failed to configure topic")).arg(sub.m_topic).arg(ec));
             continue;
-        }  
+        }
     }
 
     auto ec = cc_mqtt311_client_subscribe_send(subscribe, &Mqtt311ClientFilter::subscribeCompleteCb, this);
     if (ec != CC_Mqtt311ErrorCode_Success) {
         reportError(tr("Failed to send MQTT311 SUBSCRIBE message"));
         return;
-    }    
+    }
 }
 
 void Mqtt311ClientFilter::subscribeCompleteInternal([[maybe_unused]] CC_Mqtt311SubscribeHandle handle, CC_Mqtt311AsyncOpStatus status, const CC_Mqtt311SubscribeResponse* response)
@@ -856,7 +855,7 @@ void Mqtt311ClientFilter::subscribeCompleteInternal([[maybe_unused]] CC_Mqtt311S
     if (status != CC_Mqtt311AsyncOpStatus_Complete) {
         reportError(tr("Failed to subsribe to MQTT311 topics with status: ") + statusStr(status));
         return;
-    }  
+    }
 
     assert (response != nullptr);
     for (auto idx = 0U; idx < response->m_returnCodesCount; ++idx) {
@@ -865,7 +864,7 @@ void Mqtt311ClientFilter::subscribeCompleteInternal([[maybe_unused]] CC_Mqtt311S
         }
 
         reportError(tr("MQTT broker rejected subscribe with returnCode=") + QString::number(response->m_returnCodes[idx]));
-    }       
+    }
 }
 
 void Mqtt311ClientFilter::publishCompleteInternal([[maybe_unused]] CC_Mqtt311PublishHandle handle, CC_Mqtt311AsyncOpStatus status)
@@ -930,5 +929,4 @@ void Mqtt311ClientFilter::publishCompleteCb(void* data, CC_Mqtt311PublishHandle 
 }
 
 }  // namespace cc_plugin_mqtt311_client_filter
-
 
