@@ -257,7 +257,7 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install ^
-          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt/qt-5.15.3-dynamic-msvc2019-x86_64" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{env.QTDIR}}" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
           -DOPT_QT_MAJOR_VERSION=${{matrix.qt_ver}}
 
     - name: Build Target
@@ -315,7 +315,7 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install ^
-          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt/qt-5.15.3-dynamic-msvc2019-x86_64" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{env.QTDIR}}" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
           -DOPT_QT_MAJOR_VERSION=${{matrix.qt_ver}}
 
     - name: Build Target
