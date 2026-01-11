@@ -1,5 +1,5 @@
 //
-// Copyright 2024 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2024 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "ui_Mqtt311ClientFilterSubConfigWidget.h"
@@ -23,7 +22,6 @@
 #include "Mqtt311ClientFilter.h"
 
 #include <QtWidgets/QWidget>
-
 
 namespace cc_plugin_mqtt311_client_filter
 {
@@ -51,5 +49,4 @@ private:
 };
 
 }  // namespace cc_plugin_mqtt311_client_filter
-
 

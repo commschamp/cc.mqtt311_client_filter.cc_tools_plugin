@@ -44,7 +44,7 @@ if (OPT_USE_CCACHE)
     list (APPEND extra_opts USE_CCACHE)
     if (NOT "${OPT_CCACHE_EXECUTABLE}" STREQUAL "")
         list(APPEND extra_opts CCACHE_EXECUTABLE "${OPT_CCACHE_EXECUTABLE}")
-    endif()    
+    endif()
 endif ()
 
 if (OPT_WITH_DEFAULT_SANITIZERS)
