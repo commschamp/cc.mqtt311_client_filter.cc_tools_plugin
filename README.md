@@ -21,7 +21,7 @@ This project has the following direct and transitive external dependencies:
 
 - [COMMS Library](https://github.com/commschamp/comms) (**direct** dependency) - Primary library for any protocol definition, some inner cmake scripts are re-used in the build.
 - [cc.mqtt311.generated](https://github.com/commschamp/cc.mqtt311.generated) (**transitive** dependency) - Definition of the MQTT v3.1.1 protocol (depends on the [COMMS Library](https://github.com/commschamp/comms)).
-- [cc.mqtt311.libs](https://github.com/commschamp/cc.mqtt311.generated) (**direct** dependency) - MQTT v3.1.1 client library (depends on the
+- [cc.mqtt311.libs](https://github.com/commschamp/cc.mqtt311.libs) (**direct** dependency) - MQTT v3.1.1 client library (depends on the
 [COMMS Library](https://github.com/commschamp/comms) and the [cc.mqtt311.generated](https://github.com/commschamp/cc.mqtt311.generated)).
 - [CommsChampion Tools](https://github.com/commschamp/cc.mqtt311.generated) (**direct** dependency) - CommsChampion Tools and its library required for the plugin development.
 - [Qt](https://www.qt.io/) (**direct** dependency) - Qt5/6 libraries.
