@@ -1,7 +1,8 @@
 //
 // Copyright 2024 - 2026 (C). Alex Robenko. All rights reserved.
 //
-
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // This file is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -110,7 +111,7 @@ void Mqtt311ClientFilterConfigWidget::refresh()
         addSubscribeWidget(subConfig);
     }
 
-    m_ui.m_respTimeoutSpinBox->setValue(m_filter.config().m_respTimeout);
+    m_ui.m_respTimeoutSpinBox->setValue(static_cast<int>(m_filter.config().m_respTimeout));
     m_ui.m_clientIdLineEdit->setText(m_filter.config().m_clientId);
     m_ui.m_usernameLineEdit->setText(m_filter.config().m_username);
     m_ui.m_passwordLineEdit->setText(m_filter.config().m_password);

@@ -1,7 +1,8 @@
 //
 // Copyright 2024 - 2026 (C). Alex Robenko. All rights reserved.
 //
-
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // This file is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -31,8 +32,8 @@
 #include <memory>
 #include <string>
 
-static_assert(CC_MQTT311_CLIENT_MAKE_VERSION(1, 0, 7) <= CC_MQTT311_CLIENT_VERSION, "The version of the cc_mqtt311_client library is too old");
-static_assert(CC_TOOLS_QT_MAKE_VERSION(6, 0, 6) <= CC_TOOLS_QT_VERSION, "The version of the cc_tools_qt library is too old");
+static_assert(CC_MQTT311_CLIENT_MAKE_VERSION(1, 0, 8) <= CC_MQTT311_CLIENT_VERSION, "The version of the cc_mqtt311_client library is too old");
+static_assert(CC_TOOLS_QT_MAKE_VERSION(6, 0, 8) <= CC_TOOLS_QT_VERSION, "The version of the cc_tools_qt library is too old");
 
 namespace cc_plugin_mqtt311_client_filter
 {

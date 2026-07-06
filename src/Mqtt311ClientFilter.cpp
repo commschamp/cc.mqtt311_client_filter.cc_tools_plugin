@@ -1,7 +1,8 @@
 //
 // Copyright 2024 - 2026 (C). Alex Robenko. All rights reserved.
 //
-
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // This file is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -281,7 +282,7 @@ const QString& statusStr(CC_Mqtt311AsyncOpStatus status)
 std::vector<std::uint8_t> parsePassword(const QString& password)
 {
     std::vector<std::uint8_t> result;
-    result.reserve(password.size());
+    result.reserve(static_cast<std::size_t>(password.size()));
 
     for (auto idx = 0; idx < password.size();) {
         if (((idx + 1) < password.size()) && (password[idx] == '\\') && (password[idx + 1] == '\\')) {
