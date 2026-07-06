@@ -281,7 +281,7 @@ const QString& statusStr(CC_Mqtt311AsyncOpStatus status)
 std::vector<std::uint8_t> parsePassword(const QString& password)
 {
     std::vector<std::uint8_t> result;
-    result.reserve(password.size());
+    result.reserve(static_cast<std::size_t>(password.size()));
 
     for (auto idx = 0; idx < password.size();) {
         if (((idx + 1) < password.size()) && (password[idx] == '\\') && (password[idx + 1] == '\\')) {

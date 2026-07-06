@@ -31,8 +31,8 @@
 #include <memory>
 #include <string>
 
-static_assert(CC_MQTT311_CLIENT_MAKE_VERSION(1, 0, 7) <= CC_MQTT311_CLIENT_VERSION, "The version of the cc_mqtt311_client library is too old");
-static_assert(CC_TOOLS_QT_MAKE_VERSION(6, 0, 6) <= CC_TOOLS_QT_VERSION, "The version of the cc_tools_qt library is too old");
+static_assert(CC_MQTT311_CLIENT_MAKE_VERSION(1, 0, 8) <= CC_MQTT311_CLIENT_VERSION, "The version of the cc_mqtt311_client library is too old");
+static_assert(CC_TOOLS_QT_MAKE_VERSION(6, 0, 8) <= CC_TOOLS_QT_VERSION, "The version of the cc_tools_qt library is too old");
 
 namespace cc_plugin_mqtt311_client_filter
 {

@@ -110,7 +110,7 @@ void Mqtt311ClientFilterConfigWidget::refresh()
         addSubscribeWidget(subConfig);
     }
 
-    m_ui.m_respTimeoutSpinBox->setValue(m_filter.config().m_respTimeout);
+    m_ui.m_respTimeoutSpinBox->setValue(static_cast<int>(m_filter.config().m_respTimeout));
     m_ui.m_clientIdLineEdit->setText(m_filter.config().m_clientId);
     m_ui.m_usernameLineEdit->setText(m_filter.config().m_username);
     m_ui.m_passwordLineEdit->setText(m_filter.config().m_password);
